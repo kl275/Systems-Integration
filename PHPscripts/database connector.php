@@ -1,4 +1,5 @@
 <?php
+session_start();
 $servername = "zanzibar";
 $username = "IT490";
 $password = "coffee";
