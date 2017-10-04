@@ -1,0 +1,59 @@
+<!DOCTYPE html5>
+<html>
+<head>
+<font size = "5" color = "blue">
+</head>
+<!-- Java Script -->
+<script>
+function f()
+{
+  var password = document.getElementById("password").value;
+  var confirm = document.getElementById("confirm").value;
+  var user = document.getElementById("user").value;
+  var email = document.getElementById("email").value;
+  
+  if((user.trim() == "") || (password.trim() == "") || (confirm.trim() == "") || (email.trim() == ""))
+  {
+    alert("Please Enter Valid response in Text box");
+	return false;
+  }
+  if(password.length != 8)
+  {
+    alert("Password must be 8 Characters");
+	return false;
+  }
+  if( password != confirm )
+  {
+	alert("Password Do Not Match.");
+	return false;
+  }
+  else if ( password == confirm )
+  {
+    alert("Password Match");
+	return true;
+  }
+  return true;
+}
+</script>
+<!-- Javascript Ends -->
+<fieldset>
+<body bgcolor = "gray">
+<form action = "IT490.php" onsubmit = " return f() ">
+<div align = "center">
+<b>
+****************************************************************************<br>
+Welcome To FDA Recall Signup Page.<br><br>
+****************************************************************************<br>
+User-Name: &emsp;&emsp;&emsp;&nbsp&nbsp <input type = text name = "user" id = "user" autocomplete = "off"><br><br>
+Password: &emsp;&emsp;&emsp;&nbsp&emsp; <input type= text name = "pass" id = "password" autocomplete = "off"><br><br>
+Confirm Password: &nbsp </label><input type= text name = "confirm" id = "confirm" autocomplete = "off"><br><br>
+Email: &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp&nbsp&nbsp <input type = text name = "email" id = "email" autocomplete = "off"><br><br>
+<input type = submit style = "height:50px;width:100px;"><br><br>
+*****************************************************************************<br>
+</b>
+</fieldset>
+</div>
+</body>
+</font>
+</form>
+</html>
