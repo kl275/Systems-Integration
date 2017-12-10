@@ -32,7 +32,7 @@ class FunctionLib
 
 	public function getUserInfo($email, $password)
 	{
-		$stmt = $this->conn->prepare('SELECT Fname, Lname, id FROM Users WHERE email = :em AND password = :pw');
+		$stmt = $this->conn->prepare('SELECT Fname, Lname, id FROM IT490 WHERE email = :em AND password = :pw');
 		$stmt->bindParam(':em', $email);
 		$stmt->bindParam(':pw', $password);
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -51,7 +51,7 @@ class FunctionLib
 
 		$database = mysql_connect ('localhost', 'IT490', 'geronimo');
 		mysql_select_db('IT490');
-		$query = ("SELECT * FROM Users where email = '$email'");
+		$query = ("SELECT * FROM IT490 where email = '$email'");
 		$t = mysql_query($query);
 		if(mysql_num_rows($t) > 0)
 		{
@@ -102,7 +102,7 @@ class FunctionLib
 				echo $productDesc;
 
 
-				$this->conn = new PDO('mysql:host=localhost;dbname=login', 'root', 'password');
+				$this->conn = new PDO('mysql:host=localhost;dbname=IT490', 'IT490', 'geronimo');
        				$stmt = $this->conn->prepare("INSERT INTO drugInfo (genericName, productDesc, recallReportDate, recallData, brandName, status, refLink, drugId) VALUES (:gn, :pd, :rrd, :rd, :bn, :st, :rl, NULL)");
                         	$stmt->bindParam(':gn', $genericName);
                         	$stmt->bindParam(':pd', $productDesc);
@@ -149,7 +149,7 @@ class FunctionLib
 		
 		$drugsArray = array();
 
-		$this->conn = new PDO('mysql:host=localhost;dbname=login', 'root', 'password');
+		$this->conn = new PDO('mysql:host=localhost;dbname=IT490', 'IT490', 'geronimo');
 		$stmt = $this->conn->prepare("select * from userDrugs INNER JOIN drugInfo ON userDrugs.drugId = drugInfo.drugId INNER JOIN registered ON userDrugs.userId = registered.id WHERE userDrugs.userId = '$id'");
                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $stmt->execute();
@@ -167,7 +167,7 @@ class FunctionLib
 	public function checkStatus($id)
 	{
 			$database = mysql_connect ('localhost', 'root', 'password');
-                        mysql_select_db('login');
+                        mysql_select_db('IT490');
                         $query = ("SELECT status FROM drugInfo where id = '$id'");
                         $t = mysql_query($query);
 
@@ -175,7 +175,7 @@ class FunctionLib
 
 	public function getUserNotifications($id)
 	{
-		$this->conn = new PDO('mysql:host=localhost;dbname=login', 'root', 'password');
+		$this->conn = new PDO('mysql:host=localhost;dbname=IT490', 'IT490', 'geronimo');
                 $stmt = $this->conn->prepare("select * from userDrugs INNER JOIN drugInfo ON userDrugs.drugId = drugInfo.drugId INNER JOIN registered ON userDrugs.userId = registered.id WHERE userDrugs.userId = '$id' AND drugInfo.status = 'ongoing'");
                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $stmt->execute();
