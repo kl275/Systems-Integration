@@ -1,5 +1,4 @@
 #!/usr/bin/php
-
 <?php
 require_once('path.inc');
 require_once('get_host_info.inc');
@@ -34,7 +33,7 @@ function doRegister($request)
 {
     $db = new FunctionLib();
     
-    if($db->registerUser($request['email'], $request['password'], $request['firstname'], $request['lastname']))
+    if($db->registerUser($request['password'], $request['firstname'], $request['lastname'], $request['email']))
     {
 	return array("returnCode" => '1', 'message'=>"Registration successful");
     }
@@ -61,39 +60,7 @@ function apiRequest($request)
   return $response;
 
 }
-
-function addUserDrug($request)
-{
-  	$client = new rabbitMQClient("apiRabbitMQ.ini","apiServer");
-        $apiRe = array();
-        $apiRe['type'] = "apiReq";
-        $apiRe['drugName'] = $request['drugName'];
-	
-	$username = $request['username'];
-	$userId = $request['id'];
-       
-	 $response = $client->send_request($apiRe);
       	
-	$db = new FunctionLib();
-	$db->addUsrDrug($response['genericName'], $response['productDesc'], $response['recallReportDate'], $response['reason'], $response['brandName'], $response['status'], $response['reference'], $username, $userId);
-	return $response;	
-}	
-
-function getUserDrugs($request)
-{
-	 $db = new FunctionLib();
-	 $response = $db->getUserDrugs($request['id']);
-	// $response = json_encode($response);
-	 return $response;
-}
-
-function getUserNotifications($request)
-{
-         $db = new FunctionLib();
-         $response = $db->getUserNotifications($request['id']);
-        // $response = json_encode($response);
-         return $response;
-}
 
 
 function requestProcessor($request)
@@ -108,19 +75,13 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-      return doLogin($request['username'],$request['password']);
+      return doLogin($request['email'],$request['password']);
     case "register":
       return doRegister($request);
     case "log":
       return logMessage($request);
    case "apiReq":
       return apiRequest($request);
-   case "addUserDrug":
-      return addUserDrug($request);
-   case "getUserDrugs":
-      return getUserDrugs($request);
-   case "getUserNotifications":
-      return getUserNotifications($request);	
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
